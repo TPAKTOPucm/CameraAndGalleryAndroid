@@ -118,12 +118,9 @@ class PhotoFragment : Fragment() {
                 it.setSurfaceProvider(binding.previewView.surfaceProvider)
             }
             imageCapture = ImageCapture.Builder().build()
-            //val videoCapture = VideoCapture.withOutput(Recorder.Builder().build())
-            //var a = videoCapture.output.prepareRecording(requireContext(),FileOutputOptions.Builder(File("")).build()).start()
 
             try {
                 cameraProvider.unbindAll()
-                //cameraProvider.bindToLifecycle(this, cameraSelector,preview,videoCapture)
                 cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
             } catch (e: Exception){
                 Log.e("camera", "can not start camera", e)
