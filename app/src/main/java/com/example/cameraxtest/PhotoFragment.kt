@@ -91,6 +91,7 @@ class PhotoFragment : Fragment() {
         }
     }
 
+
     @SuppressLint("MissingSuperCall")
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -122,5 +123,10 @@ class PhotoFragment : Fragment() {
                 Log.e("camera", "can not start camera", e)
             }
         }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

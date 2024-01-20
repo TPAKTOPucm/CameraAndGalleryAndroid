@@ -122,4 +122,9 @@ class VideoFragment : Fragment() {
             }
         }, ContextCompat.getMainExecutor(requireContext()))
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

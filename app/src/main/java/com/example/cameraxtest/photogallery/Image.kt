@@ -1,4 +1,4 @@
-package com.example.cameraxtest
+package com.example.cameraxtest.photogallery
 
 class Image {
     var imageName: String? = null
