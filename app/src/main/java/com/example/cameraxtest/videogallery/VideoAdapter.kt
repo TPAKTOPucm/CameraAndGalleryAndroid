@@ -1,4 +1,4 @@
-package com.example.cameraxtest.photogallery
+package com.example.cameraxtest.videogallery
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.cameraxtest.GalleryActivity
 import com.example.cameraxtest.R
 
-class ImageAdapter(private var activity: Activity, private var imageList: ArrayList<Image>) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+class VideoAdapter(private var activity: Activity, private var imageList: ArrayList<String>) : RecyclerView.Adapter<VideoAdapter.ImageViewHolder>() {
     class ImageViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         var image: ImageView? = null
         init {
@@ -30,12 +30,12 @@ class ImageAdapter(private var activity: Activity, private var imageList: ArrayL
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val image=imageList[position]
-        Glide.with(activity).load(image.imagePath).apply(RequestOptions().centerCrop()).into(holder.image!!)
+        val videoPath=imageList[position]
+        Glide.with(activity).load(videoPath).apply(RequestOptions().centerCrop()).into(holder.image!!)
         holder.image?.setOnClickListener {
             val activity = activity as GalleryActivity
             activity.supportFragmentManager.beginTransaction()
-                .replace(R.id.galleryFragmentContainerView,ImageFragment(image.imagePath))
+                .replace(R.id.galleryFragmentContainerView,VideoFragment(videoPath))
                 .setReorderingAllowed(true)
                 .commit()
         }
