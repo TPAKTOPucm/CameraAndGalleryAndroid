@@ -21,7 +21,7 @@
         android:id="@+id/switch_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="video"
+        android:text="Видео"
         android:textSize="20sp"
         app:layout_constraintHorizontal_bias="0.66"
         android:layout_marginBottom="34dp"
@@ -29,6 +29,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageButton
+        android:id="@+id/galleryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/switch_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/switch_fragment"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

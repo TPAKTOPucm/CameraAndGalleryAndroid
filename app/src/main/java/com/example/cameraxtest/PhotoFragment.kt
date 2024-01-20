@@ -14,11 +14,7 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
-import androidx.camera.core.impl.MutableOptionsBundle
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.video.FileOutputOptions
-import androidx.camera.video.Recorder
-import androidx.camera.video.VideoCapture
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.cameraxtest.databinding.FragmentPhotoBinding
@@ -74,11 +70,11 @@ class PhotoFragment : Fragment() {
                     ContextCompat.getMainExecutor(requireContext()),
                     object : ImageCapture.OnImageSavedCallback {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                            Toast.makeText(context, "gg", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Снимок сохранён", Toast.LENGTH_SHORT).show()
                         }
 
                         override fun onError(exception: ImageCaptureException) {
-                            Log.e("error while saving image", exception.stackTraceToString())
+                            Log.e("Ошибка при сохранении снимка", exception.stackTraceToString())
                         }
                     })
             }

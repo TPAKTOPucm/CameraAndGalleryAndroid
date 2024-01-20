@@ -11,20 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
-import androidx.camera.core.impl.MutableOptionsBundle
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.FileOutputOptions
 import androidx.camera.video.Recorder
 import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
-import androidx.camera.video.VideoRecordEvent
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.util.Consumer
-import com.example.cameraxtest.databinding.FragmentPhotoBinding
 import com.example.cameraxtest.databinding.FragmentVideoBinding
 import java.io.File
 import java.text.SimpleDateFormat
@@ -69,6 +63,7 @@ class VideoFragment : Fragment() {
             if (recording != null){
                 recording!!.stop()
                 recording = null
+                binding.video.text = "Видео"
                 return@setOnClickListener
             }
             val videoDir =
@@ -81,6 +76,7 @@ class VideoFragment : Fragment() {
                 val outputOption = FileOutputOptions.Builder(file).build()
                 recording = videoCapture!!.output.prepareRecording(requireContext(),outputOption).start(ContextCompat.getMainExecutor(requireContext())
                 ) {  }
+                binding.video.text = "Стоп"
             }
         }
     }
