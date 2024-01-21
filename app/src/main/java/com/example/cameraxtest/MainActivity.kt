@@ -21,23 +21,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        switchFragment(intent.getBooleanExtra("toPhoto", false))
         binding.galleryButton.setOnClickListener {
             val intent = Intent(this, GalleryActivity::class.java)
             startActivity(intent)
         }
         binding.switchFragment.setOnClickListener {
-            val fragment = if (binding.switchFragment.text == BUTTON_SWITCH_TO_PHOTO_TEXT){
-                binding.switchFragment.text = BUTTON_SWITCH_TO_VIDEO_TEXT
-                PhotoFragment()
-            }
-            else{
-                binding.switchFragment.text = BUTTON_SWITCH_TO_PHOTO_TEXT
-                VideoFragment()
-            }
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView,fragment)
-                .setReorderingAllowed(true)
-                .commit()
+            switchFragment(binding.switchFragment.text == BUTTON_SWITCH_TO_PHOTO_TEXT)
         }
+    }
+    private fun switchFragment(toPhoto: Boolean){
+        val fragment = if (toPhoto){
+            binding.switchFragment.text = BUTTON_SWITCH_TO_VIDEO_TEXT
+            PhotoFragment()
+        }
+        else{
+            binding.switchFragment.text = BUTTON_SWITCH_TO_PHOTO_TEXT
+            VideoFragment()
+        }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainerView,fragment)
+            .setReorderingAllowed(true)
+            .commit()
     }
 }

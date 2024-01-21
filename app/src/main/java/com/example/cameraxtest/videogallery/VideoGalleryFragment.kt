@@ -1,5 +1,6 @@
 package com.example.cameraxtest.videogallery
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.os.Bundle
@@ -13,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.cameraxtest.GalleryActivity
+import com.example.cameraxtest.MainActivity
 import com.example.cameraxtest.R
 import com.example.cameraxtest.databinding.FragmentVideoGalleryBinding
 import com.example.cameraxtest.photogallery.ImageGalleryFragment
@@ -44,11 +46,21 @@ class VideoGalleryFragment : Fragment() {
         binding.imageRecycler.layoutManager = GridLayoutManager(requireContext(), (dpWidth/104).toInt())
         binding.imageRecycler.setHasFixedSize(true)
         binding.imageRecycler.adapter = VideoAdapter(requireActivity(), allVideos!!)
-        binding.button.setOnClickListener{
+        binding.buttonSwitch.setOnClickListener{
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.galleryFragmentContainerView, ImageGalleryFragment())
                 .setReorderingAllowed(true)
                 .commit()
+        }
+        binding.buttonToPhoto.setOnClickListener {
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            intent.putExtra("toPhoto", true)
+            startActivity(intent)
+        }
+        binding.buttonToVideo.setOnClickListener {
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            intent.putExtra("toPhoto", false)
+            startActivity(intent)
         }
     }
 
