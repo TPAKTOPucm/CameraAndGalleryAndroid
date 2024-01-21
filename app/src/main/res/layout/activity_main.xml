@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:text="Видео"
         android:textSize="20sp"
-        app:layout_constraintHorizontal_bias="0.66"
-        android:layout_marginBottom="34dp"
+        app:layout_constraintHorizontal_bias="0.7"
+        android:layout_marginBottom="36dp"
         app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
