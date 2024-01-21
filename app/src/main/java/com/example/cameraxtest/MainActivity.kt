@@ -3,6 +3,14 @@ package com.example.cameraxtest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.Preview
+import androidx.camera.core.Preview.SurfaceProvider
+import androidx.camera.core.UseCase
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.content.ContextCompat
 import com.example.cameraxtest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +38,23 @@ class MainActivity : AppCompatActivity() {
             switchFragment(binding.switchFragment.text == BUTTON_SWITCH_TO_PHOTO_TEXT)
         }
     }
+
+    fun startCamera(surfaceProvider: SurfaceProvider, cameraSelector: CameraSelector, useCase: UseCase){
+        val cameraProviderFeature = ProcessCameraProvider.getInstance(applicationContext)
+        cameraProviderFeature.addListener({
+            val cameraProvider = cameraProviderFeature.get() as ProcessCameraProvider
+            val preview = Preview.Builder().build().also {
+                it.setSurfaceProvider(surfaceProvider)
+            }
+            try {
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, useCase)
+            } catch (e: Exception){
+                Log.e("camera", "can not start camera", e)
+            }
+        }, ContextCompat.getMainExecutor(applicationContext))
+    }
+
     private fun switchFragment(toPhoto: Boolean){
         val fragment = if (toPhoto){
             binding.switchFragment.text = BUTTON_SWITCH_TO_VIDEO_TEXT

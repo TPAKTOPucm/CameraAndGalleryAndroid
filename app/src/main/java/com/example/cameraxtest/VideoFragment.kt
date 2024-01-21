@@ -27,6 +27,7 @@ class VideoFragment : Fragment() {
     private var recording: Recording? = null
     private var videoCapture: VideoCapture<Recorder>? = null
     private var _binding: FragmentVideoBinding? = null
+    private val activity get() = requireActivity() as MainActivity
     private val binding get() = _binding!!
     private var cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
@@ -48,13 +49,11 @@ class VideoFragment : Fragment() {
             startCamera()
         }
         if(!hasRequiredPermissions())
-            activity?.let {
                 ActivityCompat.requestPermissions(
-                    it,
+                    activity,
                     MainActivity.CAMERAX_PERMISSIONS,
                     MainActivity.REQUEST_CAMERAX_PERMISSIONS_CODE
                 )
-            }
         else
             startCamera()
         binding.video.setOnClickListener {
@@ -106,21 +105,8 @@ class VideoFragment : Fragment() {
     }
 
     private fun startCamera(){
-        val cameraProviderFeature = ProcessCameraProvider.getInstance(requireContext())
-        cameraProviderFeature.addListener({
-            val cameraProvider = cameraProviderFeature.get() as ProcessCameraProvider
-            val preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(binding.previewView.surfaceProvider)
-            }
-            videoCapture = VideoCapture.withOutput(Recorder.Builder().build())
-
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector,preview,videoCapture)
-            } catch (e: Exception){
-                Log.e("camera", "can not start camera", e)
-            }
-        }, ContextCompat.getMainExecutor(requireContext()))
+        videoCapture = VideoCapture.withOutput(Recorder.Builder().build())
+        activity.startCamera(binding.previewView.surfaceProvider, cameraSelector, videoCapture!!)
     }
 
     override fun onDestroy() {

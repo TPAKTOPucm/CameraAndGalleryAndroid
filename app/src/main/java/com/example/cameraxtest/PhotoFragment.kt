@@ -15,6 +15,8 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.video.Recorder
+import androidx.camera.video.VideoCapture
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.cameraxtest.databinding.FragmentPhotoBinding
@@ -24,6 +26,7 @@ import java.text.SimpleDateFormat
 class PhotoFragment : Fragment() {
     private var imageCapture: ImageCapture? = null
     private var _binding: FragmentPhotoBinding? = null
+    private val activity get() = requireActivity() as MainActivity
     private val binding get() = _binding!!
     private var cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
@@ -45,13 +48,11 @@ class PhotoFragment : Fragment() {
             startCamera()
         }
         if(!hasRequiredPermissions())
-            activity?.let {
                 ActivityCompat.requestPermissions(
-                    it,
+                    activity,
                     MainActivity.CAMERAX_PERMISSIONS,
                     MainActivity.REQUEST_CAMERAX_PERMISSIONS_CODE
                 )
-            }
         else
             startCamera()
         binding.photo.setOnClickListener {
@@ -108,21 +109,8 @@ class PhotoFragment : Fragment() {
     }
 
     private fun startCamera(){
-        val cameraProviderFeature = ProcessCameraProvider.getInstance(requireContext())
-        cameraProviderFeature.addListener({
-            val cameraProvider = cameraProviderFeature.get() as ProcessCameraProvider
-            val preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(binding.previewView.surfaceProvider)
-            }
-            imageCapture = ImageCapture.Builder().build()
-
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
-            } catch (e: Exception){
-                Log.e("camera", "can not start camera", e)
-            }
-        }, ContextCompat.getMainExecutor(requireContext()))
+        imageCapture = ImageCapture.Builder().build()
+        activity.startCamera(binding.previewView.surfaceProvider, cameraSelector, imageCapture!!)
     }
 
     override fun onDestroy() {
