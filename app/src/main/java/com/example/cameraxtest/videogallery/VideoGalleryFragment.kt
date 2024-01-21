@@ -1,6 +1,7 @@
 package com.example.cameraxtest.videogallery
 
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -38,7 +39,9 @@ class VideoGalleryFragment : Fragment() {
             )
         }
         allVideos = getAllVideos()
-        binding.imageRecycler.layoutManager = GridLayoutManager(requireContext(),3)
+        val displayMetrics = Resources.getSystem().displayMetrics
+        val dpWidth = displayMetrics.widthPixels / displayMetrics.density
+        binding.imageRecycler.layoutManager = GridLayoutManager(requireContext(), (dpWidth/104).toInt())
         binding.imageRecycler.setHasFixedSize(true)
         binding.imageRecycler.adapter = VideoAdapter(requireActivity(), allVideos!!)
         binding.button.setOnClickListener{
