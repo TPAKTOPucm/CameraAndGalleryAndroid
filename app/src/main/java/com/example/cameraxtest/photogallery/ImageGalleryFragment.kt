@@ -13,13 +13,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.cameraxtest.GalleryActivity
 import com.example.cameraxtest.R
-import com.example.cameraxtest.databinding.ActivityGalleryBinding
 import com.example.cameraxtest.databinding.FragmentImageGalleryBinding
 import com.example.cameraxtest.videogallery.VideoGalleryFragment
 
 
 class ImageGalleryFragment : Fragment() {
-    private var allPictures: ArrayList<Image>? = null
+    private var allPictures: ArrayList<String>? = null
     private var _binding: FragmentImageGalleryBinding? = null
     private val binding get() = _binding!!
 
@@ -50,18 +49,15 @@ class ImageGalleryFragment : Fragment() {
         }
     }
 
-    private fun getAllImages(): ArrayList<Image>? {
-        val images = ArrayList<Image>()
+    private fun getAllImages(): ArrayList<String> {
+        val images = ArrayList<String>()
         val uris = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(MediaStore.Images.ImageColumns.DATA, MediaStore.Images.Media.DISPLAY_NAME)
-        var cursor = requireActivity().contentResolver.query(uris,projection,null,null,null)
+        val projection = arrayOf(MediaStore.Images.ImageColumns.DATA)
+        val cursor = requireActivity().contentResolver.query(uris,projection,null,null,null)
         try {
             cursor!!.moveToFirst()
             do {
-                val image = Image(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
-                )
-                images.add(image)
+                images.add(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)))
             } while (cursor.moveToNext())
             cursor.close()
         } catch (e: Exception){

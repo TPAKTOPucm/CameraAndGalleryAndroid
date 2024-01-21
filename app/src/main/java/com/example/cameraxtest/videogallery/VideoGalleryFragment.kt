@@ -13,13 +13,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.cameraxtest.GalleryActivity
 import com.example.cameraxtest.R
-import com.example.cameraxtest.databinding.FragmentImageGalleryBinding
 import com.example.cameraxtest.databinding.FragmentVideoGalleryBinding
 import com.example.cameraxtest.photogallery.ImageGalleryFragment
 
 
 class VideoGalleryFragment : Fragment() {
-    private var allPictures: ArrayList<String>? = null
+    private var allVideos: ArrayList<String>? = null
     private var _binding: FragmentVideoGalleryBinding? = null
     private val binding get() = _binding!!
 
@@ -38,10 +37,10 @@ class VideoGalleryFragment : Fragment() {
                 GalleryActivity.REQUEST_PERMISSION_CODE
             )
         }
-        allPictures = getAllImages()
+        allVideos = getAllVideos()
         binding.imageRecycler.layoutManager = GridLayoutManager(requireContext(),3)
         binding.imageRecycler.setHasFixedSize(true)
-        binding.imageRecycler.adapter = VideoAdapter(requireActivity(), allPictures!!)
+        binding.imageRecycler.adapter = VideoAdapter(requireActivity(), allVideos!!)
         binding.button.setOnClickListener{
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.galleryFragmentContainerView, ImageGalleryFragment())
@@ -50,21 +49,21 @@ class VideoGalleryFragment : Fragment() {
         }
     }
 
-    private fun getAllImages(): ArrayList<String>? {
-        val images = ArrayList<String>()
+    private fun getAllVideos(): ArrayList<String> {
+        val videos = ArrayList<String>()
         val uris = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(MediaStore.Video.VideoColumns.DATA)
-        var cursor = requireActivity().contentResolver.query(uris,projection,null,null,null)
+        val cursor = requireActivity().contentResolver.query(uris,projection,null,null,null)
         try {
             cursor!!.moveToFirst()
             do {
-                images.add(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DATA)))
+                videos.add(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DATA)))
             } while (cursor.moveToNext())
             cursor.close()
         } catch (e: Exception){
             Log.e("Exception", e.stackTraceToString())
         }
-        return images
+        return videos
     }
 
     private fun hasRequiredPermissions(): Boolean {

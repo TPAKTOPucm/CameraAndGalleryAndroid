@@ -1,11 +1,11 @@
 package com.example.cameraxtest.photogallery
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.example.cameraxtest.R
 import com.example.cameraxtest.databinding.FragmentImageBinding
 
@@ -26,7 +26,7 @@ class ImageFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Glide.with(this).load(imagePath).into(binding.imageView)
+        binding.imageView.setImageURI(Uri.parse(imagePath))
         binding.button.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.galleryFragmentContainerView,ImageGalleryFragment())

@@ -9,7 +9,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.cameraxtest.databinding.ActivityGalleryBinding
-import com.example.cameraxtest.photogallery.Image
 import com.example.cameraxtest.photogallery.ImageAdapter
 
 class GalleryActivity : AppCompatActivity() {
@@ -18,7 +17,6 @@ class GalleryActivity : AppCompatActivity() {
         const val REQUEST_PERMISSION_CODE = 2
     }
     private lateinit var binding: ActivityGalleryBinding
-    private var allPictures: ArrayList<Image>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

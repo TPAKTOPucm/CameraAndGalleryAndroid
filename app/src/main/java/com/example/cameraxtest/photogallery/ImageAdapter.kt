@@ -1,17 +1,16 @@
 package com.example.cameraxtest.photogallery
 
 import android.app.Activity
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.cameraxtest.GalleryActivity
 import com.example.cameraxtest.R
 
-class ImageAdapter(private var activity: Activity, private var imageList: ArrayList<Image>) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+class ImageAdapter(private var activity: Activity, private var imageList: ArrayList<String>) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
     class ImageViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         var image: ImageView? = null
         init {
@@ -31,11 +30,11 @@ class ImageAdapter(private var activity: Activity, private var imageList: ArrayL
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val image=imageList[position]
-        Glide.with(activity).load(image.imagePath).apply(RequestOptions().centerCrop()).into(holder.image!!)
+        holder.image?.setImageURI(Uri.parse(image))
         holder.image?.setOnClickListener {
             val activity = activity as GalleryActivity
             activity.supportFragmentManager.beginTransaction()
-                .replace(R.id.galleryFragmentContainerView,ImageFragment(image.imagePath))
+                .replace(R.id.galleryFragmentContainerView,ImageFragment(image))
                 .setReorderingAllowed(true)
                 .commit()
         }

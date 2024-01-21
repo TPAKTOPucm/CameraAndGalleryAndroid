@@ -7,17 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.example.cameraxtest.R
-import com.example.cameraxtest.databinding.FragmentImageBinding
 import com.example.cameraxtest.databinding.FragmentVideoPlayBinding
 
 class VideoFragment() : Fragment() {
-    var imagePath: String? = null
+    var videoPath: String? = null
     private var _binding: FragmentVideoPlayBinding? = null
     private val binding get() = _binding!!
-    constructor(imagePath: String?) : this() {
-        this.imagePath = imagePath
+    constructor(path: String?) : this() {
+        videoPath = path
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +30,7 @@ class VideoFragment() : Fragment() {
 
         val mediaController = MediaController(requireContext())
         binding.videoView.setMediaController(mediaController)
-        binding.videoView.setVideoURI(Uri.parse(imagePath))
+        binding.videoView.setVideoURI(Uri.parse(videoPath))
         binding.videoView.requestFocus()
         binding.videoView.start()
 
